@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en" id="top">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>Happy Birthday</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="twinkles"></div>
+      <div class="grain"></div>
+    </div>
+
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <div class="brand">
+          <a href="/" style="text-decoration: none; color: inherit;">
+            <span class="brand__spark" aria-hidden="true">✦</span>
+            <span id="brandName" class="brand__text">Birthday</span>
+          </a>
+        </div>
+        <div class="topbar__music">
+          <button type="button" class="music-dock__btn" id="musicToggle" aria-pressed="false" aria-label="Play background music">
+            <span class="music-dock__icon" aria-hidden="true">♪</span>
+            <span class="music-dock__label">Music</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero__grid">
+          <div class="hero__copy">
+            <p class="kicker">A tiny site made with love</p>
+            <h1 class="title">
+              Happy Birthday,
+              <span class="gradient" id="friendName">Friend</span>.
+            </h1>
+            <p class="subtitle typing-line" id="typingContainer" aria-live="polite">
+              <span id="typingText"></span><span class="typing-cursor" id="typingCursor" aria-hidden="true">|</span>
+            </p>
+
+            <div class="hero__actions">
+              <button class="btn btn--primary" id="confettiBtn" type="button">
+                Celebrate
+              </button>
+              <button class="btn btn--glass" type="button" data-open-modal="messageModal">
+                Open message
+              </button>
+            </div>
+
+            <div class="countdown card" id="countdownCard" role="status" aria-live="polite">
+              <div class="countdown__label">Countdown to the big day</div>
+              <div class="countdown__grid">
+                <div class="pill">
+                  <div class="pill__num" id="dd">—</div>
+                  <div class="pill__txt">Days</div>
+                </div>
+                <div class="pill">
+                  <div class="pill__num" id="hh">—</div>
+                  <div class="pill__txt">Hours</div>
+                </div>
+                <div class="pill">
+                  <div class="pill__num" id="mm">—</div>
+                  <div class="pill__txt">Minutes</div>
+                </div>
+                <div class="pill">
+                  <div class="pill__num" id="ss">—</div>
+                  <div class="pill__txt">Seconds</div>
+                </div>
+              </div>
+              <div class="countdown__note" id="dateNote">Set a birthday date in settings.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--gallery reveal" id="gallerySection">
+        <div class="container">
+          <h2 class="section__title">Gallery</h2>
+          <p class="section__lead" id="gallerySectionLead"></p>
+
+          <div class="slideshow card">
+            <div id="galleryGate" class="gallery-gate">
+              <p class="gallery-gate__q" id="galleryGateQuestion"></p>
+              <div class="gallery-gate__row">
+                <input
+                  type="text"
+                  id="galleryGateInput"
+                  class="gallery-gate__input"
+                  autocomplete="off"
+                  placeholder="Type your answer"
+                  aria-describedby="galleryGateError"
+                />
+                <button type="button" class="btn btn--primary" id="galleryGateSubmit">Unlock</button>
+              </div>
+              <p class="gallery-gate__hint" id="galleryGateError" role="alert" hidden></p>
+            </div>
+
+            <div id="galleryContent" class="gallery-content">
+              <div class="slideshow__viewport" id="slideshowViewport">
+                <img id="slideA" class="slideshow__layer is-visible" alt="" decoding="async" />
+                <img id="slideB" class="slideshow__layer" alt="" decoding="async" />
+              </div>
+              <div class="slideshow__meta">
+                <div class="slideshow__title" id="slideshowTitle"></div>
+                <div class="slideshow__note" id="slideshowNote"></div>
+                <div class="slideshow__count" id="slideshowCount"></div>
+              </div>
+              <div class="slideshow__toolbar">
+                <button class="slideshow__btn" type="button" id="slideshowPrev" aria-label="Previous image">‹</button>
+                <button
+                  class="slideshow__btn slideshow__btn--wide"
+                  type="button"
+                  id="slideshowToggle"
+                  aria-label="Pause slideshow"
+                  aria-pressed="true"
+                >
+                  Pause
+                </button>
+                <button class="slideshow__btn" type="button" id="slideshowNext" aria-label="Next image">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer reveal">
+        <div class="container footer__inner">
+          <div class="footer__left">
+            <div class="footer__title" id="footerTitle">Made for Friend</div>
+            <div class="footer__sub">Edit `static/script.js` to personalize.</div>
+          </div>
+          <div class="footer__right">
+            <a class="link" href="#top" id="backToTop">Back to top</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
+    <div id="celebrateOverlay" class="celebrate-overlay" aria-hidden="true">
+      <div class="celebrate-overlay__panel">
+        <div class="celebrate-overlay__text" id="celebrateOverlayText">Happy Birthday ❤️</div>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Modals -->
+    <div class="modal" id="messageModal" aria-hidden="true">
+      <div class="modal__backdrop" data-close-modal></div>
+      <div class="modal__panel card" role="dialog" aria-modal="true" aria-label="Message">
+        <div class="modal__head">
+          <div>
+            <div class="modal__title">Message</div>
+            <div class="modal__sub">Short, heartfelt, and 100% you.</div>
+          </div>
+          <button class="iconbtn" type="button" aria-label="Close" data-close-modal>✕</button>
+        </div>
+
+        <div class="grid2">
+          <article class="card letter modal__innerCard">
+            <h3 id="letterTitle">A note for you</h3>
+            <p id="letterBody">
+              You’ve been such a bright part of my life—thank you for being you.
+              I’m proud of you, I’m cheering for you, and I hope this birthday
+              feels like a deep exhale.
+            </p>
+            <div class="signature">
+              <span class="signature__line">—</span>
+              <span id="fromName">From: Your friend</span>
+            </div>
+          </article>
+
+          <aside class="card highlights modal__innerCard">
+            <h3>Three things I love about you</h3>
+            <ul id="highlightsList" class="list">
+              <li>Your laugh (it fixes the room).</li>
+              <li>Your heart (big, steady, real).</li>
+              <li>Your drive (quietly unstoppable).</li>
+            </ul>
+            <div class="divider"></div>
+            <h3>Birthday wish</h3>
+            <p id="wish">
+              May your next year be lighter than the last and twice as beautiful.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      if (!localStorage.getItem('accessBirthday')) {
+        window.location.href = '/';
+      } else {
+        localStorage.removeItem('accessBirthday');
+      }
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
+
